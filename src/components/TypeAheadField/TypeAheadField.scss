@@ -1,0 +1,58 @@
+.TypeAheadField {
+    border: 1px solid #ddd;
+    text-align: start;
+    overflow-y: scroll;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    flex: 1;
+    padding: 15px;
+
+    &.focus {
+
+    }
+
+    span.editable {
+        font-family: arial;
+        font-weight: bold;
+        font-size: x-large;
+        display: inline;
+        width: fit-content;
+        margin: 0;
+        padding: 0;
+        resize: none;
+        outline: none;
+    }
+
+    span.hint {
+        font-family: arial;
+        font-weight: bold;
+        font-size: x-large;
+        color: rgba(white, 0.50);
+    }
+}
+
+.TypeAheadField--Wrapper {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+
+    .info {
+        margin: 15px;
+        font-size: 0.75rem;
+        text-align: end;
+        color: white;
+        left: 0;
+
+        .key {
+            border: 1px solid gray;
+            border-radius: 5px;
+            padding: 0 3px;
+        }
+    }
+}
