@@ -8,7 +8,7 @@ function body (prompt) {
         "temperature": 0.7,
         "max_tokens": 24,
         "top_p": 0.5,
-        "best_of": 3,
+        "n": 3,
         "frequency_penalty": 0.5,
         "presence_penalty": 0
       }
