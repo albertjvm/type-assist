@@ -4,14 +4,13 @@ const URL = (engine) => `https://api.openai.com/v1/engines/${engine}/completions
 
 function body (prompt) {
     return {
-        "prompt": prompt,
-        "temperature": 0.35,
-        "max_tokens": 12,
+        "prompt": `Write a dream sequence.\n\n${prompt}`,
+        "temperature": 0.7,
+        "max_tokens": 24,
         "top_p": 0.5,
         "frequency_penalty": 0.5,
-        "presence_penalty": 0,
-        "stop": []
-    }
+        "presence_penalty": 0
+      }
 }
 
 exports.handler = async function(event, context) {
