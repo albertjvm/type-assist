@@ -1,51 +1,41 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import './TypeAheadField.scss';
 
-const delay = 3; // seconds
+const delay = .5; // seconds
 
 export const TypeAheadField = () => {
-    const hints = useMemo(() => [
-        'lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        'ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        'duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-        'excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    ], []);
-
     const inputRef = useRef(null);
     const timer = useRef(null);
     const currentHint = useRef(0);
     const [ focus, setFocus ] = useState(false);
     const [ value, setValue ] = useState('');
+    const [ subject, setSubject ] = useState('');
     const [ hint, setHint ] = useState('');
+    const [ hints, setHints ] = useState([]);
 
     const loadHints = useCallback(async () => {
         const result = await fetch(
-            `https://type.albertjvm.ca/.netlify/functions/openai?prompt=${value}`
+            `https://type.albertjvm.ca/.netlify/functions/openai?prompt=${subject || 'Write a dream sequence'}.\n\n${value}`
         );
         const { data: { choices } } = await result.json();
-        console.log(choices);
-    }, [value]);
+        return (choices.map(c => c.text.trim()));
+    }, [subject, value]);
 
     const setInnerValue = (v) => {
         inputRef.current.innerText = v;
     };
 
-    const hintTimer = useCallback(() => {
-        setHint('');
+    const hintTimer = useCallback(async () => {
+        // setHint('');
         clearTimeout(timer.current);
-        timer.current = setTimeout(() => {
+        timer.current = setTimeout(async () => {
             // setHint(hints[currentHint.current]);
-            loadHints();
+            const newHints = await loadHints();
+            setHints(newHints);
+            currentHint.current = 0;
+            setHint(newHints[0])
         }, delay * 1000);
     }, [loadHints]);
-
-    useEffect(() => {
-        if (focus) {
-            hintTimer();
-        } else {
-            setHint('');
-        }
-    }, [focus, hintTimer]);
 
     const setCursorPosition = (n) => {
         const range = document.createRange();
@@ -98,6 +88,13 @@ export const TypeAheadField = () => {
 
     return (
         <div className="TypeAheadField--Wrapper">
+            <input 
+                type="text"
+                className="Subject"
+                placeholder='Write a dream sequence'
+                value={subject}
+                onChange={e => setSubject(e.target.value)}
+            />
             <div
                 className={`${'TypeAheadField'} ${focus ? 'focus' : ''}`}
                 onClick={() => {

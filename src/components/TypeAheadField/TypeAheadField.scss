@@ -35,6 +35,20 @@
     }
 }
 
+.Subject {
+    font-family: arial;
+    font-weight: bold;
+    font-size: xx-large;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+    background: rgb(64,64,64);
+    border: none;
+    outline: none;
+    padding: 15px;
+    border-bottom: 2px solid #aaa;
+}
+
 .TypeAheadField--Wrapper {
     overflow: hidden;
     display: flex;
