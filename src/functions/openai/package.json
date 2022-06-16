@@ -1,14 +1,9 @@
 {
   "name": "openai",
   "version": "1.0.0",
-  "description": "",
   "main": "openai.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "node-fetch": "^3.2.6"
+    "node-fetch": "^2.6.0"
   }
 }

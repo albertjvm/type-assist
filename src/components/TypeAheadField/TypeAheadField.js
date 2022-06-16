@@ -18,6 +18,14 @@ export const TypeAheadField = () => {
     const [ value, setValue ] = useState('');
     const [ hint, setHint ] = useState('');
 
+    const loadHints = useCallback(async () => {
+        const result = await fetch(
+            `https://type.albertjvm.ca/.netlify/functions/openai?prompt=${value}`
+        );
+        const { data: { choices } } = await result.json();
+        console.log(choices);
+    }, [value]);
+
     const setInnerValue = (v) => {
         inputRef.current.innerText = v;
     };
@@ -26,9 +34,10 @@ export const TypeAheadField = () => {
         setHint('');
         clearTimeout(timer.current);
         timer.current = setTimeout(() => {
-            setHint(hints[currentHint.current]);
+            // setHint(hints[currentHint.current]);
+            loadHints();
         }, delay * 1000);
-    }, [hints]);
+    }, [loadHints]);
 
     useEffect(() => {
         if (focus) {
